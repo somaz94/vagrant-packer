@@ -1,0 +1,20 @@
+# Packer
+*.box
+packer_cache/
+output-*/
+crash.log
+
+# Vagrant
+.vagrant/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
