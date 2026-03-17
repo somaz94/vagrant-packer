@@ -59,7 +59,7 @@ config.vm.synced_folder '.', '/vagrant', disabled: true
   end
 
   #================#
-  # Comopute Nodes #
+  # Compute Nodes  #
   #================#
 
   (1..Compute).each do |i|

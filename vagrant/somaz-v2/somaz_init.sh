@@ -36,7 +36,7 @@ source /etc/profile
 systemctl restart sshd
 
 # Clex User Create
-adduser somaz -u 1100 -G wheel -p $(echo 'somaz@2023' | openssl passwd -1 -stdin)
+adduser somaz -u 1100 -G wheel -p $(echo "${SOMAZ_PASSWORD:-changeme}" | openssl passwd -1 -stdin)
 
 # RHEL/CentOS 7 have reported traffic issues being routed incorrectly due to iptables bypassed
 cat <<EOF >  /etc/sysctl.d/k8s.conf
@@ -150,7 +150,7 @@ sudo sed -i '15iaccount     required      pam_tally2.so' /etc/pam.d/password-aut
 sudo mv /var/log/tallylog{,.bak}
 
 # 7. [U-03] system-auth
-sudo sed -i '5iauth        required      pam_tally2.so file=/var/log/tallylog deny=5 unlo ck_time=1800 no_magic_root' /etc/pam.d/system-auth
+sudo sed -i '5iauth        required      pam_tally2.so file=/var/log/tallylog deny=5 unlock_time=1800 no_magic_root' /etc/pam.d/system-auth
 sudo sed -i '15iaccount        required      pam_tally2.so no_magic_root reset' /etc/pam.d/system-auth
 
 # 8. [U-45] su
@@ -167,7 +167,7 @@ cat << EOF |sudo tee /etc/motd
 ##########################################################
 #                                                        #
 #                      Warning!!                         #
-#        This system is for authrized users only!!       #
+#        This system is for authorized users only!!       #
 #                                                        #
 ##########################################################
 EOF
@@ -176,7 +176,7 @@ cat << EOF |sudo tee /etc/issue.net
 ##########################################################
 #                                                        #
 #                      Warning!!                         #
-#        This system is for authrized users only!!       #
+#        This system is for authorized users only!!       #
 #                                                        #
 ##########################################################
 EOF
@@ -185,7 +185,7 @@ cat << EOF |sudo tee /etc/banner
 ##########################################################
 #                                                        #
 #                      Warning!!                         #
-#        This system is for authrized users only!!       #
+#        This system is for authorized users only!!       #
 #                                                        #
 ##########################################################
 EOF
@@ -289,7 +289,7 @@ ONPARENT=yes
 MTU=1500
 EOF
 
-# Disk Parttion Resize
+# Disk Partition Resize
 parted /dev/vda resizepart 2 100%
 pvresize /dev/vda2
 lvextend -l +100%FREE /dev/centos_centos7/root
@@ -300,11 +300,11 @@ if [ `echo $(hostname)` = "control01" ]
 then
 sed -i 's/server control01 iburst/local stratum 10/'  /etc/chrony.conf
 sed -i 's/#allow 192.168.0.0\/16/allow 192.168.20.0\/24/' /etc/chrony.conf
-curl -LO -s http://192.168.151.50:8090/iso/v2/somaz-pkg-2.0.7.tar -u somaz:somaz@2023
-curl -LO -s http://192.168.151.50:8090/iso/v2/somaz-helm-v18.tar.gz -u somaz:somaz@2023 
+curl -LO -s http://192.168.151.50:8090/iso/v2/somaz-pkg-2.0.7.tar -u "${DOWNLOAD_USER:-somaz}:${DOWNLOAD_PASSWORD}"
+curl -LO -s http://192.168.151.50:8090/iso/v2/somaz-helm-v18.tar.gz -u "${DOWNLOAD_USER:-somaz}:${DOWNLOAD_PASSWORD}"
 mv somaz-pkg-2.0.7.tar somaz-helm-v18.tar.gz /home/somaz
 chown somaz.somaz -R /home/somaz/
-echo "You shuld wait for 3min to connect contro01. it need rebooting time" 
+echo "You should wait for 3min to connect control01. It needs rebooting time" 
 fi
 
 systemctl restart chronyd

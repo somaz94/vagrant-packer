@@ -36,7 +36,7 @@ source /etc/profile
 systemctl restart sshd
 
 # Clex User Create
-adduser somaz -u 1100 -G wheel -p $(echo 'somaz' | openssl passwd -1 -stdin)
+adduser somaz -u 1100 -G wheel -p $(echo "${SOMAZ_PASSWORD:-changeme}" | openssl passwd -1 -stdin)
 
 # RHEL/CentOS 7 have reported traffic issues being routed incorrectly due to iptables bypassed
 #cat <<EOF >  /etc/sysctl.d/k8s.conf
@@ -206,7 +206,7 @@ ONPARENT=yes
 MTU=1500
 EOF
 
-# Disk Parttion Resize
+# Disk Partition Resize
 parted /dev/vda resizepart 2 100%
 pvresize /dev/vda2
 lvextend -l +100%FREE /dev/bkos/root
@@ -217,7 +217,7 @@ cat << EOF |sudo tee /etc/motd
 ##########################################################
 #                                                        #
 #                      Warning!!                         #
-#        This system is for authrized users only!!       #
+#        This system is for authorized users only!!       #
 #                                                        #
 ##########################################################
 EOF
@@ -226,7 +226,7 @@ cat << EOF |sudo tee /etc/issue.net
 ##########################################################
 #                                                        #
 #                      Warning!!                         #
-#        This system is for authrized users only!!       #
+#        This system is for authorized users only!!       #
 #                                                        #
 ##########################################################
 EOF
@@ -235,7 +235,7 @@ cat << EOF |sudo tee /etc/banner
 ##########################################################
 #                                                        #
 #                      Warning!!                         #
-#        This system is for authrized users only!!       #
+#        This system is for authorized users only!!       #
 #                                                        #
 ##########################################################
 EOF
@@ -292,7 +292,7 @@ sed -i 's/#allow 192.168.0.0\/16/allow 192.168.20.0\/24/' /etc/chrony.conf
 #mv somaz-pkg-2.0.7.tar somaz-helm-v18.tar.gz /home/somaz
 chown somaz.somaz -R /home/somaz/
 #sed -i "s/BOOTPROTO=dhcp/BOOTPROTO=static/" /etc/sysconfig/network-scripts/ifcfg-eth0
-echo "You shuld wait for 3min to connect contro01. it need rebooting time" 
+echo "You should wait for 3min to connect control01. It needs rebooting time" 
 fi
 
 systemctl restart chronyd

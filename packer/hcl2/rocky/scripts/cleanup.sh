@@ -1,3 +1,6 @@
+#!/bin/bash
+set -e
+
 #remove network mac and interface information
 #sed -i '/HWADDR/d' /etc/sysconfig/network-scripts/ifcfg-eth0
 #sed -i "/^UUID/d" /etc/sysconfig/network-scripts/ifcfg-eth0
