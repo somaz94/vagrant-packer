@@ -9,10 +9,11 @@ A collection of infrastructure-as-code configurations for building machine image
 ## Features
 
 - **Packer Templates**: HCL2 and JSON templates for building VM images
-- **Multi-Platform**: CentOS, Rocky Linux, Ubuntu (GCE), Amazon Linux
+- **Multi-Platform**: CentOS 7, Rocky Linux 8.6, Ubuntu 20.04 (GCE), Amazon Linux 2 (AWS)
 - **Multi-Provider**: KVM/QEMU (local), GCP, AWS
 - **Vagrant Configs**: Multi-node cluster provisioning with libvirt
 - **Automated Setup**: Kickstart files for unattended OS installation
+- **Security Hardening**: PAM, SSH, account lockout, login banners, command logging
 - **VM Lifecycle**: Shell scripts for managing VM snapshots, start/stop, rebuild
 
 <br/>
@@ -24,7 +25,7 @@ vagrant-packer/
 ├── packer/
 │   ├── hcl2/                    # Modern Packer HCL2 templates
 │   │   ├── centos/              # CentOS 7 (QEMU/KVM)
-│   │   ├── rocky/               # Rocky Linux (QEMU/KVM)
+│   │   ├── rocky/               # Rocky Linux 8.6 (QEMU/KVM)
 │   │   ├── ubuntu-gce/          # Ubuntu 20.04 (GCP)
 │   │   └── amazon-linux/        # Amazon Linux 2 (AWS)
 │   └── json/                    # Legacy Packer JSON templates
@@ -33,14 +34,10 @@ vagrant-packer/
 │       ├── ubuntu-gce/
 │       └── amazon-linux/
 ├── vagrant/
-│   ├── somaz-v1/                # Cluster config v1
-│   ├── somaz-v2/                # Cluster config v2
-│   └── somaz-v3/                # Cluster config v3
-│       ├── Vagrantfile          # Multi-node VM definitions
-│       ├── net-service.xml      # libvirt network config
-│       ├── somazenv.sh          # VM lifecycle management
-│       ├── somaz_init.sh        # VM initialization script
-│       └── somaz_init1.sh       # Enhanced initialization script
+│   ├── somaz-v1/                # Full cluster (11 nodes)
+│   ├── somaz-v2/                # Compact cluster (6 nodes)
+│   └── somaz-v3/                # Minimal cluster (4 nodes)
+├── docs/                        # Detailed guides
 ├── .github/workflows/           # GitHub Actions
 ├── cliff.toml                   # git-cliff changelog config
 └── LICENSE
@@ -48,90 +45,50 @@ vagrant-packer/
 
 <br/>
 
-## Prerequisites
+## Quick Start
 
-### Enable Nested Virtualization
-
-Required for running KVM/QEMU on a virtual machine host.
-
-- [Enable Nested Virtualization in KVM](https://ostechnix.com/how-to-enable-nested-virtualization-in-kvm-in-linux/)
-
-<br/>
-
-## Vagrant Installation
-
-<br/>
-
-### CentOS/RHEL
+### Build a VM Image with Packer
 
 ```bash
-sudo yum install -y yum-utils
-sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
-sudo yum -y install vagrant
-sudo yum -y install qemu libvirt libvirt-devel ruby-devel gcc qemu-kvm libguestfs-tools
-vagrant plugin install vagrant libvirt
-vagrant plugin install vagrant-mutate
-vagrant plugin install vagrant-parallels
+cd packer/hcl2/rocky
+packer init .
+packer build rocky.json.pkr.hcl
 ```
 
-### Ubuntu/Debian
+### Start a Vagrant Cluster
 
 ```bash
-wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-sudo apt update && sudo apt install vagrant
-sudo apt install -y qemu qemu-kvm libvirt-daemon libvirt-clients bridge-utils virt-manager
-vagrant plugin install vagrant libvirt
-vagrant plugin install vagrant-mutate
-vagrant plugin install vagrant-parallels
+cd vagrant/somaz-v3
+vagrant up
+```
+
+### Manage VM Lifecycle
+
+```bash
+./somazenv.sh status    # Show all VM status
+./somazenv.sh start     # Start or create VMs
+./somazenv.sh stop      # Graceful halt
+./somazenv.sh rebuild   # Destroy and recreate all VMs
 ```
 
 <br/>
 
-## Packer Installation
+## Documentation
 
-<br/>
-
-### CentOS/RHEL
-
-```bash
-sudo yum install -y yum-utils
-sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
-sudo yum -y install packer
-```
-
-### Ubuntu/Debian
-
-```bash
-wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-sudo apt update && sudo apt install packer
-```
-
-<br/>
-
-## Optional: KVM Storage Pool
-
-Create a dedicated libvirt pool for Vagrant VMs:
-
-```bash
-mkfs.xfs /dev/sdb1
-mkdir -p /var/lib/libvirt/vagrant
-echo "$(blkid /dev/sdb1 -o export | grep ^UUID) /var/lib/libvirt/vagrant xfs default 0 0" >> /etc/fstab
-mount -a
-virsh pool-define-as --name vagrant --type dir --target /var/lib/libvirt/vagrant
-virsh pool-start vagrant
-virsh pool-autostart vagrant
-```
+| Guide | Description |
+|---|---|
+| [Installation Guide](docs/installation.md) | Prerequisites, Vagrant/Packer/KVM setup, cloud provider config |
+| [Packer Guide](docs/packer-guide.md) | Build VM images for QEMU, GCE, AWS with variables and kickstart |
+| [Vagrant Guide](docs/vagrant-guide.md) | Multi-node cluster configs, networking, provisioning, resources |
 
 <br/>
 
 ## Reference
 
-- [Vagrant Installation Guide](https://developer.hashicorp.com/vagrant/downloads?product_intent=vagrant)
-- [Packer Installation Guide](https://developer.hashicorp.com/packer/downloads)
+- [Vagrant Documentation](https://developer.hashicorp.com/vagrant/docs)
+- [Packer Documentation](https://developer.hashicorp.com/packer/docs)
 - [Packer: Migrate to HCL2](https://developer.hashicorp.com/packer/tutorials/configuration-language/hcl2-upgrade)
-- [Enable Nested Virtualization](https://ostechnix.com/how-to-enable-nested-virtualization-in-kvm-in-linux/)
+- [Enable Nested Virtualization in KVM](https://ostechnix.com/how-to-enable-nested-virtualization-in-kvm-in-linux/)
 
 <br/>
 
