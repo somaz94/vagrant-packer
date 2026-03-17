@@ -36,6 +36,30 @@ variable "user" {
   default = "vagrant"
 }
 
+# Kickstart variables
+variable "root_password" {
+  type        = string
+  default     = "vagrant"
+  description = "Root password for the OS installation"
+}
+
+variable "admin_user" {
+  type        = string
+  default     = "somaz"
+  description = "Admin user to create during installation"
+}
+
+variable "admin_password" {
+  type      = string
+  sensitive = true
+  description = "Admin user password for the OS installation"
+}
+
+variable "timezone" {
+  type    = string
+  default = "Asia/Seoul"
+}
+
 source "qemu" "centos-os-0.0.1" {
   accelerator      = "kvm"
   boot_command     = ["<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-ks.cfg<enter><wait>"]
@@ -43,7 +67,15 @@ source "qemu" "centos-os-0.0.1" {
   disk_interface   = "virtio"
   disk_size        = "${var.disk_size}"
   format           = "raw"
-  http_directory   = "http"
+  http_content = {
+    "/centos-ks.cfg" = templatefile("${path.root}/http/centos-ks.cfg.pkrtpl", {
+      root_password    = var.root_password
+      vagrant_password = var.password
+      admin_user       = var.admin_user
+      admin_password   = var.admin_password
+      timezone         = var.timezone
+    })
+  }
   iso_checksum     = "md5:a4711c4fa6a1fb32bd555fae8d885b12"
   iso_url          = "/var/lib/libvirt/images/CentOS-7-x86_64-Minimal-2009.iso"
   net_device       = "virtio-net"

@@ -7,8 +7,10 @@ This guide covers building VM images using the Packer templates in this reposito
 ## Overview
 
 The repository provides Packer templates in two formats:
-- **HCL2** (`packer/hcl2/`) - Modern, recommended format
-- **JSON** (`packer/json/`) - Legacy format for backward compatibility
+- **HCL2** (`packer/hcl2/`) - Modern, recommended format with `templatefile()` for kickstart variable injection
+- **JSON** (`packer/json/`) - Legacy format, deprecated (see `packer/json/README.md`)
+
+Each HCL2 template includes a `*.auto.pkrvars.hcl.example` file. Copy it to `*.auto.pkrvars.hcl` and fill in your values before building.
 
 <br/>
 
@@ -40,12 +42,15 @@ The repository provides Packer templates in two formats:
 
 ```bash
 cd packer/hcl2/centos
+cp centos.auto.pkrvars.hcl.example centos.auto.pkrvars.hcl
+# Edit centos.auto.pkrvars.hcl (set admin_password at minimum)
 packer init .
 packer build centos.json.pkr.hcl
 ```
 
 ```bash
 cd packer/hcl2/rocky
+cp rocky.auto.pkrvars.hcl.example rocky.auto.pkrvars.hcl
 packer init .
 packer build rocky.json.pkr.hcl
 ```
@@ -61,6 +66,12 @@ packer build rocky.json.pkr.hcl
 | `disk_size` | `5000` | Disk size in MB |
 | `user` | `vagrant` | SSH username |
 | `password` | `vagrant` | SSH password |
+| `root_password` | `vagrant` | Root password for kickstart |
+| `admin_user` | `somaz` | Admin user created during install (CentOS only) |
+| `admin_password` | (required, sensitive) | Admin user password (CentOS only) |
+| `timezone` | `Asia/Seoul` | System timezone |
+
+Kickstart files (`http/*.cfg.pkrtpl`) are rendered at build time using Packer's `templatefile()` function, so credentials are never stored in the repository.
 
 <br/>
 

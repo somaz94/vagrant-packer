@@ -84,6 +84,15 @@ ssh -p 60011 vagrant@127.0.0.1
 
 <br/>
 
+## Shared Resources
+
+The `vagrant/shared/` directory contains reusable components:
+
+- **common_init.sh** - Common initialization functions (SSH, user creation, kernel tuning, logging, etc.) that can be sourced by version-specific init scripts
+- **net-service.xml** - libvirt network definition for the service network used by all versions
+
+<br/>
+
 ## Provisioning Scripts
 
 <br/>

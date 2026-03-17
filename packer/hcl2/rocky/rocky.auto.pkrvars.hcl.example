@@ -1,0 +1,15 @@
+# Copy this file to rocky.auto.pkrvars.hcl and fill in the values.
+# Variables without defaults are required.
+
+# VM resources
+cpu       = "2"
+ram       = "2048"
+disk_size = "5000"
+
+# SSH credentials (used by Packer to connect)
+user     = "vagrant"
+password = "vagrant"
+
+# Kickstart: OS installation credentials
+root_password = "vagrant"
+timezone      = "Asia/Seoul"

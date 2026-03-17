@@ -28,12 +28,13 @@ vagrant-packer/
 │   │   ├── rocky/               # Rocky Linux 8.6 (QEMU/KVM)
 │   │   ├── ubuntu-gce/          # Ubuntu 20.04 (GCP)
 │   │   └── amazon-linux/        # Amazon Linux 2 (AWS)
-│   └── json/                    # Legacy Packer JSON templates
+│   └── json/                    # Legacy JSON templates (deprecated)
 │       ├── centos/
 │       ├── rocky/
 │       ├── ubuntu-gce/
 │       └── amazon-linux/
 ├── vagrant/
+│   ├── shared/                  # Common init functions & network config
 │   ├── somaz-v1/                # Full cluster (11 nodes)
 │   ├── somaz-v2/                # Compact cluster (6 nodes)
 │   └── somaz-v3/                # Minimal cluster (4 nodes)
@@ -51,6 +52,8 @@ vagrant-packer/
 
 ```bash
 cd packer/hcl2/rocky
+cp rocky.auto.pkrvars.hcl.example rocky.auto.pkrvars.hcl
+# Edit rocky.auto.pkrvars.hcl with your values
 packer init .
 packer build rocky.json.pkr.hcl
 ```

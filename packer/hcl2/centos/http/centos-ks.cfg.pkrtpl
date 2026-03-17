@@ -1,6 +1,6 @@
 install
 
-# for too new hardware 
+# for too new hardware
 unsupported_hardware
 
 text
@@ -18,7 +18,7 @@ lang en_US.UTF-8
 keyboard --vckeymap=us --xlayouts='us'
 
 # System timezone
-timezone Asia/Seoul --isUtc --nontp
+timezone ${timezone} --isUtc --nontp
 
 # System bootloader configuration
 bootloader --append="cgroup.memory=nokmem spectre_v2=off nopti crashkernel=auto"
@@ -32,10 +32,10 @@ part pv.01 --size=1 --grow
 volgroup somaz pv.01
 logvol /        --vgname=somaz --name=root --fstype=xfs --size=4096
 
-rootpw vagrant
+rootpw ${root_password}
 authconfig --enableshadow --passalgo=sha512
-user --name=vagrant --groups=vagrant --password=vagrant
-# user --groups=wheel --name=somaz --password=CHANGE_ME --gecos="somaz"
+user --name=vagrant --groups=vagrant --password=${vagrant_password}
+user --groups=wheel --name=${admin_user} --password=${admin_password} --gecos="${admin_user}"
 
 reboot
 

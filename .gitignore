@@ -2,7 +2,9 @@
 *.box
 packer_cache/
 output-*/
+output/
 crash.log
+*.auto.pkrvars.hcl
 
 # Vagrant
 .vagrant/

@@ -1,0 +1,10 @@
+# Copy this file to amazon-linux.auto.pkrvars.hcl and fill in the values.
+# Variables without defaults are required.
+
+# Provisioning password (required, sensitive)
+password = "CHANGE_ME"
+
+# Optional overrides
+# instance_type = "t2.micro"
+# region        = "ap-northeast-2"
+# user          = "ec2-user"
