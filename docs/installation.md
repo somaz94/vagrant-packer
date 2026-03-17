@@ -4,6 +4,8 @@
 
 ## Prerequisites
 
+<br/>
+
 ### Enable Nested Virtualization
 
 Required for running KVM/QEMU on a virtual machine host.
@@ -24,6 +26,8 @@ cat /sys/module/kvm_amd/parameters/nested
 
 ## Vagrant
 
+<br/>
+
 ### CentOS/RHEL
 
 ```bash
@@ -34,6 +38,8 @@ sudo yum -y install qemu libvirt libvirt-devel ruby-devel gcc qemu-kvm libguestf
 vagrant plugin install vagrant-libvirt
 vagrant plugin install vagrant-mutate
 ```
+
+<br/>
 
 ### Ubuntu/Debian
 
@@ -46,6 +52,8 @@ vagrant plugin install vagrant-libvirt
 vagrant plugin install vagrant-mutate
 ```
 
+<br/>
+
 ### Verify Installation
 
 ```bash
@@ -57,6 +65,8 @@ vagrant plugin list
 
 ## Packer
 
+<br/>
+
 ### CentOS/RHEL
 
 ```bash
@@ -64,6 +74,8 @@ sudo yum install -y yum-utils
 sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
 sudo yum -y install packer
 ```
+
+<br/>
 
 ### Ubuntu/Debian
 
@@ -102,6 +114,8 @@ virsh pool-start vagrant
 virsh pool-autostart vagrant
 ```
 
+<br/>
+
 ### Verify Pool
 
 ```bash
@@ -112,6 +126,8 @@ virsh pool-info vagrant
 <br/>
 
 ## Cloud Provider Setup
+
+<br/>
 
 ### AWS (for Amazon Linux Packer builds)
 
@@ -124,6 +140,8 @@ export AWS_ACCESS_KEY_ID="your-key"
 export AWS_SECRET_ACCESS_KEY="your-secret"
 export AWS_DEFAULT_REGION="ap-northeast-2"
 ```
+
+<br/>
 
 ### GCP (for Ubuntu GCE Packer builds)
 

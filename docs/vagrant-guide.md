@@ -29,6 +29,8 @@ All versions use multiple libvirt networks for traffic isolation:
 | storage | `192.168.50.0/24` | Storage traffic (Ceph client) |
 | ceph-cluster | `192.168.60.0/24` or `10.10.60.0/24` | Ceph cluster replication |
 
+<br/>
+
 ### IP Allocation Scheme
 
 | Node Type | mgmt IP Range | SSH Port Range |
@@ -43,12 +45,16 @@ All versions use multiple libvirt networks for traffic isolation:
 
 ## Usage
 
+<br/>
+
 ### Start Cluster
 
 ```bash
 cd vagrant/somaz-v3
 vagrant up
 ```
+
+<br/>
 
 ### VM Lifecycle Management (somazenv.sh)
 
@@ -64,6 +70,8 @@ Each version includes a `somazenv.sh` script for managing the VM lifecycle:
 ./somazenv.sh revert somazpc  # Revert to 'somazpc' snapshot
 ```
 
+<br/>
+
 ### SSH Access
 
 ```bash
@@ -77,6 +85,8 @@ ssh -p 60011 vagrant@127.0.0.1
 <br/>
 
 ## Provisioning Scripts
+
+<br/>
 
 ### somaz_init.sh
 
@@ -95,6 +105,8 @@ The main initialization script runs on each node during `vagrant up`. It configu
 - **Kernel Tuning**: Docker parameters, TCP/network tuning, inotify watchers
 - **NTP**: chrony configured with control01 as time source
 - **Disk**: Partition resize to use full disk
+
+<br/>
 
 ### somaz_init1.sh (v1 only)
 
@@ -122,6 +134,8 @@ Set these in the Vagrantfile or pass them via the shell provisioner environment.
 
 ## Node Resources
 
+<br/>
+
 ### v1 (Full Cluster)
 
 | Node | vCPU | Memory | Disk | Count |
@@ -132,6 +146,8 @@ Set these in the Vagrantfile or pass them via the shell provisioner environment.
 | network | 8 | 32 GB | 100 GB | 2 |
 | manage | 8 | 32 GB | 100 GB | 1 |
 
+<br/>
+
 ### v2 (Compact)
 
 | Node | vCPU | Memory | Disk | Count |
@@ -139,6 +155,8 @@ Set these in the Vagrantfile or pass them via the shell provisioner environment.
 | control | 8 | 96 GB | 500 GB | 3 |
 | compute | 16 | 32 GB | default | 2 |
 | ceph | 8 | 32 GB | default + 3x300 GB | 1 |
+
+<br/>
 
 ### v3 (Minimal)
 

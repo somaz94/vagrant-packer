@@ -25,12 +25,16 @@ The repository provides Packer templates in two formats:
 
 ## CentOS / Rocky Linux (QEMU/KVM)
 
+<br/>
+
 ### Prerequisites
 
 - QEMU/KVM installed and configured
 - ISO images placed in `/var/lib/libvirt/images/`
   - CentOS: `CentOS-7-x86_64-Minimal-2009.iso`
   - Rocky: `Rocky-8.6-x86_64-minimal.iso`
+
+<br/>
 
 ### Build
 
@@ -46,6 +50,8 @@ packer init .
 packer build rocky.json.pkr.hcl
 ```
 
+<br/>
+
 ### Variables
 
 | Variable | Default | Description |
@@ -56,10 +62,14 @@ packer build rocky.json.pkr.hcl
 | `user` | `vagrant` | SSH username |
 | `password` | `vagrant` | SSH password |
 
+<br/>
+
 ### Output
 
 - CentOS: `box/centos-os-0.0.1_raw.box` (Vagrant box, raw format)
 - Rocky: `box/rocky-os-0.0.1.box` (Vagrant box, qcow2 format)
+
+<br/>
 
 ### Kickstart Files
 
@@ -72,10 +82,14 @@ Unattended OS installation is configured via kickstart files in `http/` director
 
 ## Ubuntu 20.04 (Google Compute Engine)
 
+<br/>
+
 ### Prerequisites
 
 - GCP service account JSON key file
 - GCP project with Compute Engine API enabled
+
+<br/>
 
 ### Build
 
@@ -89,6 +103,8 @@ packer build \
   ubuntu-gce.json.pkr.hcl
 ```
 
+<br/>
+
 ### Variables
 
 | Variable | Default | Description |
@@ -99,6 +115,8 @@ packer build \
 | `machine_type` | `n1-standard-1` | GCE machine type |
 | `source_image_family` | `ubuntu-2004-lts` | Source image family |
 | `zone` | `asia-northeast3-a` | GCE zone |
+
+<br/>
 
 ### Provisioning
 
@@ -111,9 +129,13 @@ The `scripts/ubuntu-setup.sh` script installs:
 
 ## Amazon Linux 2 (AWS)
 
+<br/>
+
 ### Prerequisites
 
 - AWS credentials configured (`~/.aws/credentials` or environment variables)
+
+<br/>
 
 ### Build
 
@@ -125,6 +147,8 @@ packer build \
   amazon-linux.json.pkr.hcl
 ```
 
+<br/>
+
 ### Variables
 
 | Variable | Default | Description |
@@ -133,6 +157,8 @@ packer build \
 | `region` | `ap-northeast-2` | AWS region |
 | `user` | `ec2-user` | SSH username |
 | `password` | (required, sensitive) | Sudo password for provisioning |
+
+<br/>
 
 ### Provisioning
 
