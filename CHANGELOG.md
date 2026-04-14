@@ -32,6 +32,7 @@ All notable changes to this project will be documented in this file.
 
 ### Builds
 
+- **deps:** bump softprops/action-gh-release from 2 to 3 ([fd010c8](https://github.com/somaz94/vagrant-packer/commit/fd010c866a76988add0a8d8ffd9081d4c34a9d12))
 - **deps:** bump actions/github-script from 8 to 9 ([ebca95f](https://github.com/somaz94/vagrant-packer/commit/ebca95f0fada9146b5ee11469e76ce2d1b7d1fe1))
 - **deps:** bump dependabot/fetch-metadata from 2 to 3 ([3a84b41](https://github.com/somaz94/vagrant-packer/commit/3a84b41b3205923ef91ec3ac5055247da830ce68))
 
