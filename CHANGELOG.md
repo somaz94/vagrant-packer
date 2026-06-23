@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased (2026-04-14)
+## Unreleased (2026-06-23)
 
 ### Bug Fixes
 
@@ -32,12 +32,14 @@ All notable changes to this project will be documented in this file.
 
 ### Builds
 
+- **deps:** bump actions/checkout from 6 to 7 ([f3d2c01](https://github.com/somaz94/vagrant-packer/commit/f3d2c01c5aae799904e65ad88b04b2cdfe1d794d))
 - **deps:** bump softprops/action-gh-release from 2 to 3 ([fd010c8](https://github.com/somaz94/vagrant-packer/commit/fd010c866a76988add0a8d8ffd9081d4c34a9d12))
 - **deps:** bump actions/github-script from 8 to 9 ([ebca95f](https://github.com/somaz94/vagrant-packer/commit/ebca95f0fada9146b5ee11469e76ce2d1b7d1fe1))
 - **deps:** bump dependabot/fetch-metadata from 2 to 3 ([3a84b41](https://github.com/somaz94/vagrant-packer/commit/3a84b41b3205923ef91ec3ac5055247da830ce68))
 
 ### Continuous Integration
 
+- add concurrency guards to recurring workflows ([196c0a3](https://github.com/somaz94/vagrant-packer/commit/196c0a30c1aaa8d9f0b0ef33398e1b56bab18960))
 - skip auto-generated changelog and contributors commits in release notes ([9b3167c](https://github.com/somaz94/vagrant-packer/commit/9b3167caf9ba195c5adc705cda26cffc6ce48d2d))
 - revert to body_path RELEASE.md in release workflow ([8a42318](https://github.com/somaz94/vagrant-packer/commit/8a4231859e9b382cceb9a624559c24c57ea81dd6))
 - use generate_release_notes instead of body_path in release workflow ([ef5bea7](https://github.com/somaz94/vagrant-packer/commit/ef5bea7f54d3690ea2657a7b4e3f796eb3cb68cb))
